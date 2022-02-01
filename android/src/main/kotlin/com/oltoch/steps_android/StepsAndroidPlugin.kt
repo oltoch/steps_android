@@ -29,12 +29,15 @@ class StepsAndroidPlugin: FlutterPlugin, MethodCallHandler, SensorEventListener,
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "steps_android")
     channel.setMethodCallHandler(this)
-    sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-    output = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-            sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) !=null
+
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+
+    sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+    output = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+            sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) !=null
+
     if(call.method == "getSteps"){
       if(output){
         startCounting()
